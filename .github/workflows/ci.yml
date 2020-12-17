@@ -1,22 +1,28 @@
-name: Caching Primes
+name: Flutter CI
 
 on:
   push:
     branches:
       - test
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+env:
+  flutter_version: "1.20.x"
+  java_version: "12.x"
 
+jobs:
+  format-and-lint:
+    name: Code linting
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Cache Flutter
-      id: cache-flutter
-      uses: actions/cache@v2
-      with:
-        path: /opt/hostedtoolcache/flutter
-        key: foobar
-    - uses: subosito/flutter-action@v1
-      with:
-        channel: 'stable'
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v1
+        with:
+          java-version: ${{ env.java_version }}
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v2
+        with:
+          path: /opt/hostedtoolcache/flutter
+          key: foofoo
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: ${{ env.flutter_version }}
