@@ -11,6 +11,7 @@ env:
 
 jobs:
   format-and-lint:
+    if: "!contains(github.event.head_commit.message, 'skip')"
     name: Code linting
     runs-on: ubuntu-latest
     steps:
